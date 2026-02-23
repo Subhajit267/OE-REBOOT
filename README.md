@@ -179,11 +179,6 @@ Available app names: `tictactoe`, `quiz`, `temp_conv`, `calculator`, `eqn_solve`
 This is a personal learning project, but contributions, bug reports, and suggestions are very welcome!  
 Feel free to open an issue or submit a pull request. Please keep the code style consistent and document your changes.
 
----
-
-## 📄 License
-
-[MIT](LICENSE) (or choose your preferred license)
 
 ---
 
