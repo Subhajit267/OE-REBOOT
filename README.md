@@ -1,168 +1,205 @@
-## 📘 OE_REBOOT – Operating Environment Reboot
+# 🔧 OE_REBOOT – Operating Environment Reboot
 
-**Author:** Subhajit Halder  
-**Project Type:** Console‑based System Simulation (C)  
-**Platforms:** Linux, Windows  
+<div align="center">
 
----
+![C](https://img.shields.io/badge/Language-C-blue?logo=c\&logoColor=white)
+![Cross‑Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-yellow)
+![Status](https://img.shields.io/badge/Status-Under%20Development-orange)
+![Release](https://img.shields.io/badge/Latest%20Release-v6.48.21-lightgrey)
 
-### 🔍 Overview
+**A modern, modular C port of the classic console‑based “Operating Environment”.**  
+The original C++ codebase has been completely rewritten from scratch with a clean architecture, paving the way for future integration into a hobby operating system.
 
-OE_REBOOT is a retro‑style console environment that simulates a complete operating system’s user interface and system tools. It is a **reboot** of an original **OE** project, which was written in **C++**. This version is built from the ground up in **C** using a clean, modular architecture with a Platform Abstraction Layer (PAL) for cross‑platform support.
-
-The project features:
-
-- A **command prompt** with a guest/normal user mode.
-- **User management** (login, password change, user ID change, guest access).
-- An **application installer** with persistent registry files (`.rg`).
-- A **Registry Editor** for advanced system configuration (admin mode available).
-- A **Settings panel** for personalization (border color), reset/restore, and help.
-- Built‑in **timer, activation key verification, and countdown lockdown**.
-- A **progress bar** and **bootscreen** for each application.
-
-All this runs inside a bordered layout with colored text, giving a nostalgic “operating environment” feel – entirely in the console. The ultimate goal is to evolve this simulation into a lightweight **operating system kernel** in the future.
+</div>
 
 ---
 
-### 🎯 Purpose (Why OE_REBOOT?)
+## 📌 Overview
 
-This project was created to demonstrate:
+**OE_REBOOT** is a ground‑up reimplementation of the beloved **Operating Environment** – a retro console pseudo‑OS that originally featured user accounts, an application registry, a built‑in shell, and several mini‑applications. This reboot preserves the original’s look and feel while introducing:
 
-- **Modular C programming** – separation of concerns via PAL, UI, installer, user modules.
-- **Cross‑platform development** – a single codebase runs on Linux and Windows.
-- **Persistent state management** – binary files store user data, application installation status, and theme settings.
-- **Interactive console UI** – menus, forms, and real‑time feedback without external libraries.
-- **Security concepts** – password hiding, guest restrictions, lockdown timers.
-- **Extensibility** – new applications can be added by simply updating the app table.
+- A **Platform Abstraction Layer (PAL)** for seamless Windows / Linux support.
+- A **modular codebase** (separate modules for UI, file I/O, user management, app installer, etc.).
+- **Binary file storage** instead of plain text.
+- A **table‑driven command shell** that is easy to extend.
+- Clean separation of concerns, making it ideal as a foundation for a future OS shell.
 
-It is not meant to be a full OS, but a simulation that shows how such systems are structured – and a foundation for a future OS project.
+The project is **actively developed**. The core shell, user management, installer, registry editor, and settings panels are fully functional, but many applications are placeholders and some visual glitches remain. Contributions and feedback are welcome!
 
 ---
 
-### 🧱 Architecture
+## ✨ Core Features
 
+| Feature                    | Status              | Notes                                                                 |
+| -------------------------- | ------------------- | --------------------------------------------------------------------- |
+| **Platform Abstraction**   | ✅ Complete         | Console I/O, file access, string utils, random numbers, echo control |
+| **User Management**        | ✅ Complete         | Login, guest mode, password change, user ID change, user creation    |
+| **Installer / Trial Mode** | ✅ Complete         | First‑run setup, trial mode (guest), direct install                  |
+| **Command Shell (prompt)** | ✅ Complete         | Table‑driven, case‑insensitive, guest restrictions, install/uninstall|
+| **Registry Editor**        | ✅ Complete         | Basic version (admin mode, install/reset/temp)                       |
+| **Settings Panel**         | ✅ Complete         | User accounts, reset & restore, border color personalization         |
+| **Application Placeholders**| ⚠️ Partial         | All apps show messages; real implementations pending                 |
+| **Bootscreen & Progress Bar**| ✅ Complete       | Randomized loading bar (original OE style)                           |
+| **Help System**            | ✅ Complete         | Prompt help, registry help, settings help                            |
+| **Extras (source view, improvements)** | ⚠️ Partial | `source_display` is a placeholder                                    |
+
+---
+
+## 🧱 System Modules
+
+### 📁 Platform Abstraction Layer (PAL)
+- Console functions (`pal_print`, `pal_set_cursor`, `pal_clear_screen`, …)
+- String wrappers (`pal_strlen`, `pal_strcmp`, `pal_itoa`, …)
+- File I/O (`pal_file_open_*`, `pal_file_read`, …)
+- Random number generator (`pal_srand`, `pal_rand`)
+- Echo control (`pal_set_echo`) – used for password entry
+
+### 👤 User Management
+- `user.bd` / `pwd.bd` binary storage
+- `login()`, `add_user()`, `password_change()`, `userid_change()`
+- Guest mode (`reg_status = 1`)
+
+### 🛠️ Installer & Registry
+- `app_installer` module with `app_t` table
+- Binary registry files (`*.rg`) store installation status
+- `install_all`, `uninstall_all`, per‑app install/uninstall
+
+### 🖥️ UI Elements
+- `layout()` draws a 209×50 bordered box with centered headers
+- `logo()` – enlarged tri‑colour OE logo
+- `progressbar()` – randomised loading bar
+- `ui_title`, `ui_menu`, `ui_confirm`, `ui_status`
+
+### 📚 Help System
+- `help_show_prompt()`, `help_show_regedit()`, `help_show_settings()`
+
+### ⚙️ Settings
+- User accounts (password change, user ID change)
+- Reset & restore (uninstall all apps)
+- Personalization (border colour selection)
+
+### 🎮 Application Placeholders
+- TicTacToe, Quiz, Temp Converter, Calculator, Equation Solvers, Area of Triangle
+- All currently show a placeholder message; ready to be replaced with real logic.
+
+---
+
+## 🔧 Building & Running
+
+### Prerequisites
+- **C compiler** (GCC, Clang, MSVC) with C99 support
+- **Windows**: a terminal that supports ANSI escape codes (Windows Terminal, ConEmu, etc.)
+- **Linux**: any terminal
+
+### Clone & Build
+```bash
+git clone https://github.com/yourusername/oe-reboot.git   # replace with your repo URL
+cd oe-reboot
 ```
-┌─────────────────┐
-│   main.c        │  Entry point: initialises PAL, shows bootscreen,
-│                 │  checks for existing user → installer or login.
-└─────────────────┘
-         │
-         ▼
-┌─────────────────────────────────────┐
-│ PAL (pal_linux.c / pal_windows.c)   │  Platform Abstraction Layer –
-│                                     │  console I/O, file I/O, strings,
-│                                     │  random numbers, sleep.
-└─────────────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────────┐
-│ UI Modules (ui_*.c)                 │  Drawing (layout, logo, progressbar),
-│                                     │  menus, status, confirm, title.
-└─────────────────────────────────────┘
-         │
-         ▼
-┌──────────┬──────────┬──────────────┐
-│ installer│ prompt   │ regedit      │  Core interactive shells
-│ settings │ help     │ extras       │
-└──────────┴──────────┴──────────────┘
-         │
-         ▼
-┌─────────────────────────────────────┐
-│ User Management (user_*.c)          │  login, add_user, password change,
-│                                     │  user ID change, guest mode.
-└─────────────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────────┐
-│ App Installer (app_installer.c)     │  Install/uninstall apps, check status,
-│                                     │  find app by name.
-└─────────────────────────────────────┘
-```
-
----
-
-### ✨ Features
-
-- **First‑run installer** – asks whether to test in guest mode or install directly.
-- **User system** – create an account with optional password; change or remove password later.
-- **Guest mode** – limited command set (`install`, `login`, `registryeditor`, `exit`).
-- **Command prompt** – type `help` to see available commands; supports `inst_<app>` and `unst_<app>` shortcuts.
-- **Application placeholders** – seven apps (TicTacToe, Quiz, Temp Converter, Calculator, Equation Solver, Quadratic Solver, Area of Triangle) with bootscreen and “placeholder” message – easily replaceable with real logic.
-- **Registry Editor** – advanced tool with admin mode; can install all apps, reset, temporarily run apps, manage user accounts, add keys.
-- **Settings panel** – user accounts, reset & restore (uninstall all or full reinstall), personalisation (border color), help.
-- **Colour change wizard** – 16 background colours, preview table, saved in `looks.bd`.
-- **Lockdown timer** – after too many failed logins, a 10‑second countdown and exit.
-- **Activation key placeholders** – for future app registration.
-
----
-
-### 🛠️ Building and Running
 
 #### Linux
 ```bash
-gcc -D OE_PLATFORM_LINUX *.c -o oe_reboot
+gcc -D OE_PLATFORM_LINUX -std=c99 *.c -o oe_reboot
 ./oe_reboot
 ```
 
-#### Windows (MinGW or Visual Studio)
+#### Windows (MinGW)
 ```bash
-gcc -D OE_PLATFORM_WINDOWS *.c -o oe_reboot.exe
+gcc -D OE_PLATFORM_WINDOWS -std=c99 *.c -o oe_reboot.exe
 oe_reboot.exe
 ```
 
-**No external libraries required** – only standard C runtime and (on Windows) the Windows API for console modes.
+#### Windows (MSVC)
+```batch
+cl /TC /D OE_PLATFORM_WINDOWS /Feoe_reboot.exe *.c
+oe_reboot.exe
+```
+
+> **Note:** The first run will take you through the installer. Choose trial mode to test without creating a user, or install to set up a permanent account.
 
 ---
 
-### 🚀 First‑Time Usage
+## 🎮 Using OE_REBOOT
 
-1. Run the program – you’ll see a bootscreen.
-2. If no user exists, the **installer** appears.
-   - Press **y** to install directly (you’ll create a user afterwards).
-   - Press **n** to enter guest mode (limited commands).
-   - Special backdoors: `registryeditor`, `registryeditor_admin`, `prompt` (skip installer).
-3. In normal mode, type `help` at the `Command->` prompt to see all commands.
-4. Explore the Settings panel (`settings` command) to change colours, reset apps, or manage your account.
+### First Run
+- If no user exists, you’ll be asked to **install** or **try the program** (trial mode).
+- Trial mode gives you a guest shell with limited commands (`help`, `exit`, `login`, `registryeditor`).
+- Installing creates a user account (with optional password) and grants full access.
 
----
+### Commands
+At the `Command->` prompt, type:
 
-### 📁 Important Files
+| Command               | Description                                   | Guest Allowed? |
+| --------------------- | --------------------------------------------- | -------------- |
+| `help`                | Show available commands                       | ✅             |
+| `exit`                | Exit the program                              | ✅             |
+| `ver`                 | Show version                                  | ✅             |
+| `login`               | Re‑authenticate (return to login)             | ✅             |
+| `registryeditor`      | Enter registry editor (limited in guest mode) | ✅             |
+| `settings`            | Open settings panel                           | ❌             |
+| `inst_all`            | Install all apps                              | ❌             |
+| `unst_all`            | Uninstall all apps                            | ❌             |
+| `inst_<app>`          | Install a specific app                        | ❌             |
+| `unst_<app>`          | Uninstall a specific app                      | ❌             |
+| `<app name>`          | Run an app (if installed)                     | ❌             |
 
-| File(s)               | Purpose                                |
-|-----------------------|----------------------------------------|
-| `user.bd`, `pwd.bd`   | Stored username and password (binary)  |
-| `*.rg` files          | Application registry (0 = uninstalled, 1 = installed) |
-| `looks.bd`            | Selected border colour (1–16)          |
+**Available app names:**  
+`tictactoe`, `quiz`, `temp_conv`, `calculator`, `eqn_solve`, `quad_eqn_solve`, `atc`.
 
----
-
-### 📌 Version History
-
-| Version  | Date       | Key Features / Changes |
-|----------|------------|------------------------|
-| 6.12.56  | 2026‑02‑21 | Initial PAL‑based rewrite, basic user system, installer, prompt. |
-| 6.48.21  | 2026‑02‑24 | Added settings panel, colour wizard, registry editor, guest mode, bug fixes. |
-
-*Intermediate versions exist but are not tagged separately.*
-
----
-
-### 🔮 Future Direction
-
-OE_REBOOT is a stepping stone toward a larger goal: converting this simulation into a **real operating system kernel**. The current codebase demonstrates the core concepts – user management, application installation, a registry, and a settings panel – all of which are essential components of an OS. Future work may involve:
-
-- Replacing placeholder apps with full implementations.
-- Dynamic screen size detection.
-- Raw input mode for better console handling.
-- Eventually, booting on bare metal with a custom kernel.
+### Guest Mode
+- Only `help`, `exit`, `ver`, `login`, `registryeditor` are allowed.
+- Useful for a quick demo without setting up an account.
 
 ---
 
-### 📬 Contact
+## 🐞 Known Issues
+
+- **Screen coordinates** may be off in terminals other than the developer’s (assumes 209×50).
+- **Application placeholders** – none of the apps are functional yet.
+- **Input echoing** – in some terminals, characters may appear twice; this is being addressed.
+- **Color personalisation** – changing the border color requires a restart (by design).
+- **No error recovery** for corrupted binary files; delete `user.bd`/`pwd.bd` to reset.
+- **Progress bar** may still pause briefly at 100% (cosmetic).
+- **Help texts** may not be perfectly aligned.
+
+---
+
+## 🚧 Roadmap
+
+- [ ] **Replace placeholders with real app implementations** (starting with temperature converter).
+- [ ] **Improve screen coordinate system** to adapt to any terminal size.
+- [ ] **Add more robust error handling** (file corruption, invalid input).
+- [ ] **Write unit tests** for core modules.
+- [ ] **Prepare for integration into a hobby OS kernel** (replace PAL with kernel syscalls).
+
+---
+
+## 🤝 Contributing
+
+This is a personal learning project, but contributions, bug reports, and suggestions are very welcome!  
+Feel free to open an issue or submit a pull request. Please keep the code style consistent and document your changes.
+
+---
+
+## 👨‍💻 Developer
 
 **Subhajit Halder**  
 📧 subhajithalder267@outlook.com
 
 ---
 
-**Enjoy the retro experience – and stay tuned for the OS!**
+## 🕰️ Version History
+
+| Version | Date       | Description                              |
+| ------- | ---------- | ---------------------------------------- |
+| v6.48.21| 2026-02-24 | Added settings panel, colour wizard, registry editor, guest mode, bug fixes. |
+| v6.12.56| 2026-02-21 | Initial PAL‑based rewrite, basic user system, installer, prompt. |
+| v6.1.0  | 2026-02-20 | Initial PAL implementation, basic layout |
+
+---
+
+<div align="center">
+
+*OE_REBOOT is a work in progress – stay tuned for updates!*
+
+</div>
