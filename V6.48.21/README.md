@@ -381,6 +381,7 @@ Delete these files to reset the system to a fresh state.
 - **Colour change** requires a restart to take effect (by design).
 - **Corrupted binary files** – delete the affected file to reset.
 - **Help texts** may not be perfectly aligned.
+- **pal_sleep** may not work on all linux systems due to usleep, can be fixed using nanosleep
 
 ---
 
@@ -419,3 +420,4 @@ Please follow the existing code style and document your changes.
 ⭐ Star the repo if you find it interesting! ⭐
 
 </div>
+
